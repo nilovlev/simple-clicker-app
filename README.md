@@ -1,1 +1,1 @@
-# snake-game-app
+# simple-clicker-app

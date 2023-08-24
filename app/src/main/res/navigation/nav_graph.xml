@@ -31,5 +31,21 @@
     <fragment
         android:id="@+id/gameFragment"
         android:name="com.example.snakegame.GameFragment"
-        android:label="GameFragment" />
+        android:label="GameFragment" >
+        <action
+            android:id="@+id/action_gameFragment_to_leaderboardFragment"
+            app:destination="@id/leaderboardFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/leaderboardFragment"
+        android:name="com.example.snakegame.LeaderboardFragment"
+        android:label="LeaderboardFragment" >
+        <action
+            android:id="@+id/action_leaderboardFragment_to_gameFragment"
+            app:destination="@id/gameFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
 </navigation>

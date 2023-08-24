@@ -10,9 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.snakegame.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -63,7 +60,7 @@ class LoginFragment : Fragment() {
             } else {
                 Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show()
 
-                this.findNavController().navigate(R.id.action_loginFragment_to_gameFragment)
+                findNavController().navigate(R.id.action_loginFragment_to_gameFragment)
             }
         }
     }

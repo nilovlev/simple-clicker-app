@@ -1,7 +1,6 @@
 package com.example.snakegame
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,20 +10,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.snakegame.databinding.FragmentRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class RegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
+        db = Firebase.firestore
     }
 
     override fun onCreateView(
@@ -62,9 +62,17 @@ class RegisterFragment : Fragment() {
             if (!it.isSuccessful) {
                 Toast.makeText(context, it.exception?.message.toString(), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(context, "Successfully registered", Toast.LENGTH_SHORT).show()
+                db.collection("users").add(hashMapOf(
+                    "email" to email,
+                    "score" to 0
+                )).addOnSuccessListener {
+                    Toast.makeText(context, "Successfully registered", Toast.LENGTH_SHORT).show()
 
-                this.findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                    findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                }.addOnFailureListener { ex ->
+                    Toast.makeText(context, ex.message, Toast.LENGTH_SHORT).show()
+                }
+
             }
         }
     }
